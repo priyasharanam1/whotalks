@@ -2,7 +2,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber'
 import { Environment, OrbitControls, Html } from '@react-three/drei'
-import { Model } from "./Explorer";
+// import { Model } from "./Explorer";
+// import { Model } from './Man';
+import { Model } from './Lady';
+// import { Model } from './Spanish';
+// import { Model } from './Teacher';
 import { ConvaiClient } from 'convai-web-sdk';
 import { SETTINGS } from './constants';
 
@@ -17,7 +21,6 @@ export default function App() {
   const finalizedUserText = useRef();
   const [npcText, setNpcText] = useState("");
   const npcTextRef = useRef();
-
   const [isTalking, setIsTalking] = useState(false);
 
   convaiClient.setResponseCallback((response) => {
@@ -40,6 +43,7 @@ export default function App() {
       setNpcText(npcTextRef.current);
     }
   });
+  
 
   convaiClient.onAudioPlay(() => {
     setIsTalking(true);
@@ -48,6 +52,7 @@ export default function App() {
   convaiClient.onAudioStop(() => {
     setIsTalking(false);
   });
+
 
   const [keyPressed, setKeyPressed] = useState(false);
 
@@ -76,31 +81,33 @@ export default function App() {
       window.removeEventListener('keydown', handleSpacebarPress);
       window.removeEventListener('keyup', handleSpacebarRelease);
     };
-  }, [keyPressed]);
+  });
 
 
   return (
+    <>
     <Canvas shadows camera={{ position: [0, 0, 15], fov: 30 }}>
       <Environment files="/snowy_forest_path_01_4k.hdr" ground={{ height: 5, radius: 30, scale: 20 }} />
-      <Model position={[0, 0, 3]} scale={1.8} animationName={isTalking ? "talk" : "idle"} />
-      <Html position={[-1.5, -0.75, 3]}>
+      <Model position={[0, -2, 0]} scale={2.7} animationName={isTalking ? "talk" : "idle"} />
+      <Html position={[-1.91, -1.5, 3]}>
         {userText && (<div style={{
           width: '100%', height: '100%', overflow: 'auto', borderRadius: '10px',
-          background: 'rgba(115, 117, 109, 0.5)', padding: '10px', textAlign: 'center'
+          background: 'rgba(115, 117, 109, 0.5)', padding: '7px', textAlign: 'center'
         }}>
           <p style={{ maxHeight: '300px', width: '300px' }}>{userText}</p>
         </div>)}
       </Html>
-      <Html position={[1, 3, 3]}>
+      <Html position={[1, 2.4, 3]}>
         {npcText && (<div style={{
           width: '100%', height: '100%', overflow: 'auto', borderRadius: '10px',
-          background: 'rgba(255, 255, 255, 0.7)', padding: '10px', textAlign: 'center'
+          background: 'rgba(255, 255, 255, 0.7)', padding: '7px', textAlign: 'center'
         }}>
           <p style={{ maxHeight: '300px', width: '300px' }}>{npcText}</p>
         </div>)}
       </Html>
-      <OrbitControls enableZoom={false} minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 2.25} />
+      <OrbitControls enableZoom={true} minPolarAngle={Math.PI / 3} maxPolarAngle={Math.PI / 2.25} />
     </Canvas>
+    </>
   );
 }
 
