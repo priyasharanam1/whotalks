@@ -6,13 +6,30 @@ Source: https://sketchfab.com/3d-models/office-lady-character-3500e52341194c94b5
 Title: Office lady Character
 */
 
-import React from "react";
-import { useGLTF } from "@react-three/drei";
+import React, {useEffect, useRef} from "react";
+import { useAnimations, useFBX, useGLTF } from "@react-three/drei";
 
-export function Model(props) {
+export function Lady(props) {
+  const group = useRef()
   const { nodes, materials } = useGLTF("/office_lady_character.glb");
+
+  const {animations : talkingAnimation} = useFBX('animations/Talking.fbx')
+  console.log(talkingAnimation)
+  talkingAnimation[0].name = "Talking"
+  
+
+  const {actions} = useAnimations(talkingAnimation, group)
+
+  console.log(talkingAnimation[0].tracks);
+
+  useEffect(()=>{
+    actions["Talking"].reset().play()
+  },[])
+
+  
+
   return (
-    <group {...props} dispose={null}>
+    <group {...props} ref={group} dispose={null}>
       <primitive object={nodes.GLTF_created_0_rootJoint} />
       <skinnedMesh
         geometry={nodes.Object_7.geometry}

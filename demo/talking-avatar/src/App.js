@@ -4,7 +4,9 @@ import { Canvas } from '@react-three/fiber'
 import { Environment, OrbitControls, Html } from '@react-three/drei'
 // import { Model } from "./Explorer";
 // import { Model } from './Man';
-import { Model } from './Lady';
+import { Lady } from './Lady';
+import { Classroom } from './Class';
+import { Computer } from './Computer';
 // import { Model } from './Spanish';
 // import { Model } from './Teacher';
 import { ConvaiClient } from 'convai-web-sdk';
@@ -87,20 +89,27 @@ export default function App() {
   return (
     <>
     <Canvas shadows camera={{ position: [0, 0, 15], fov: 30 }}>
-      <Environment files="/snowy_forest_path_01_4k.hdr" ground={{ height: 5, radius: 30, scale: 20 }} />
-      <Model position={[0, -2, 0]} scale={2.7} animationName={isTalking ? "talk" : "idle"} />
+    {/* files="/snowy_forest_path_01_4k.hdr"  */}
+      {/* <Environment ground={{ height: 5, radius: 30, scale: 20 }} /> */}
+      <Classroom/>
+      <Computer position={[5.4, -2, 1]} scale={0.03}/>
+      <Lady position={[0, -2, 0]} scale={3} animationName={isTalking ? "talk" : "idle"} />
+      {/* <group position={[0, -2, 0]} scale={2.7}>
+      <Lady/>
+      </group> */}
+      <ambientLight intensity={0.8}/>
       <Html position={[-1.91, -1.5, 3]}>
         {userText && (<div style={{
           width: '100%', height: '100%', overflow: 'auto', borderRadius: '10px',
-          background: 'rgba(115, 117, 109, 0.5)', padding: '7px', textAlign: 'center'
+          background: 'rgba(255, 255, 255, 0.6)', padding: '7px', textAlign: 'center'
         }}>
           <p style={{ maxHeight: '300px', width: '300px' }}>{userText}</p>
         </div>)}
       </Html>
-      <Html position={[1, 2.4, 3]}>
+      <Html position={[-4.8, 2.6, 3]}>
         {npcText && (<div style={{
           width: '100%', height: '100%', overflow: 'auto', borderRadius: '10px',
-          background: 'rgba(255, 255, 255, 0.7)', padding: '7px', textAlign: 'center'
+          background: 'rgba(255, 255, 255, 0.6)', padding: '7px', textAlign: 'center'
         }}>
           <p style={{ maxHeight: '300px', width: '300px' }}>{npcText}</p>
         </div>)}
